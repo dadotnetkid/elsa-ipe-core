@@ -211,11 +211,13 @@ public class WorkflowDefinitionPublisher(
         var definitionId = definition.DefinitionId;
         var filter = new WorkflowDefinitionFilter
         {
-            DefinitionId = definitionId
+            DefinitionId = definitionId,
+            InstanceId = definition.InstanceId.GetValueOrDefault()
         };
         var lastVersion = await workflowDefinitionStore.FindLastVersionAsync(filter, cancellationToken);
-
-        draft.Version = draft.Id == lastVersion?.Id ? lastVersion.Version : lastVersion?.Version + 1 ?? 1;
+        draft.Id = lastVersion.Id;
+        
+        draft.Version = draft.DefinitionId == lastVersion?.DefinitionId ? lastVersion.Version : lastVersion?.Version + 1 ?? 1;
         draft.IsLatest = true;
         draft = Initialize(draft);
 

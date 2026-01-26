@@ -40,7 +40,8 @@ internal class List(IWorkflowDefinitionStore store, IWorkflowDefinitionLinker li
             SearchTerm = request.SearchTerm?.Trim(),
             MaterializerName = request.MaterializerName,
             DefinitionIds = request.DefinitionIds,
-            Ids = request.Ids
+            Ids = request.Ids,
+            InstanceId = request.InstanceId,
         };
     }
 

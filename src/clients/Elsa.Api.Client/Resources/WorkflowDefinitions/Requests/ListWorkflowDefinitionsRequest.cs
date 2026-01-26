@@ -62,4 +62,6 @@ public class ListWorkflowDefinitionsRequest
     /// The order direction.
     /// </summary>
     public OrderDirection? OrderDirection { get; set; }
+
+    public long InstanceId { get; set; }
 }

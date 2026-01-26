@@ -12,14 +12,14 @@ internal class GetByDefinitionId(IWorkflowDefinitionStore store, IWorkflowDefini
 {
     public override void Configure()
     {
-        Get("/workflow-definitions/by-definition-id/{definitionId}", "/workflow-definitions/{definitionId}");
+        Get("/workflow-definitions/by-definition-id/{definitionId}/{instanceId}", "/workflow-definitions/{definitionId}/{instanceId}");
         ConfigurePermissions("read:workflow-definitions");
     }
 
     public override async Task HandleAsync(Request request, CancellationToken cancellationToken)
     {
         var versionOptions = request.VersionOptions != null ? VersionOptions.FromString(request.VersionOptions) : VersionOptions.Latest;
-        var filter = WorkflowDefinitionHandle.ByDefinitionId(request.DefinitionId, versionOptions).ToFilter();
+        var filter = WorkflowDefinitionHandle.ByDefinitionId(request.DefinitionId, versionOptions, request.InstanceId).ToFilter();
         var definition = await store.FindAsync(filter, cancellationToken);
 
         if (definition == null)

@@ -102,6 +102,8 @@ public class WorkflowDefinition : VersionedEntity
     /// </summary>
     public bool IsSystem { get; set; }
 
+    public int? InstanceId { get; set; }
+
     /// <summary>
     /// Creates and returns a shallow copy of the workflow definition.
     /// </summary>

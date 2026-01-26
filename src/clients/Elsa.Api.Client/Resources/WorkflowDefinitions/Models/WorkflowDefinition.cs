@@ -82,4 +82,6 @@ public class WorkflowDefinition : LinkedEntity
     /// An option to use the workflow as a readonly workflow.
     /// </summary>
     public bool IsReadonly { get; set; }
+
+    public int InstanceId { get; set; }
 }

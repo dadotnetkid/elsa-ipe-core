@@ -51,7 +51,8 @@ internal class Post(
         if (isNew)
         {
             draft = await workflowDefinitionPublisher.NewAsync(cancellationToken: cancellationToken);
-
+            draft.InstanceId = request.Model.InstanceId;
+            
             if (!string.IsNullOrWhiteSpace(definitionId))
                 draft.DefinitionId = definitionId;
         }

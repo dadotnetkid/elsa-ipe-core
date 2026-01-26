@@ -11,7 +11,7 @@ public class WorkflowDefinitionHandle
     /// Gets or sets the definition ID. When set, the <see cref="DefinitionVersionId"/> property is ignored.
     /// </summary>
     public string? DefinitionId { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the version options. When set, the <see cref="DefinitionVersionId"/> property is ignored.
     /// </summary>
@@ -21,25 +21,35 @@ public class WorkflowDefinitionHandle
     /// Gets or sets the definition version ID. When set, the <see cref="DefinitionId"/> and <see cref="VersionOptions"/> properties are ignored.
     /// </summary>
     public string? DefinitionVersionId { get; set; }
-    
+
     /// <summary>
     /// Creates a new <see cref="WorkflowDefinitionHandle"/> instance with the specified definition ID and version options.
     /// </summary>
-    public static WorkflowDefinitionHandle ByDefinitionId(string definitionId, VersionOptions? versionOptions = null) => new() { DefinitionId = definitionId, VersionOptions = versionOptions };
-    
+    public static WorkflowDefinitionHandle ByDefinitionId(string definitionId, VersionOptions? versionOptions = null, int? instanceId = null) => new()
+    {
+        InstanceId = instanceId.GetValueOrDefault(),
+        DefinitionId = definitionId,
+        VersionOptions = versionOptions
+    };
+
+    public int InstanceId { get; set; }
+
     /// <summary>
     /// Creates a new <see cref="WorkflowDefinitionHandle"/> instance with the specified definition version ID.
     /// </summary>
     /// <param name="definitionVersionId"></param>
     /// <returns></returns>
-    public static WorkflowDefinitionHandle ByDefinitionVersionId(string definitionVersionId) => new() { DefinitionVersionId = definitionVersionId };
+    public static WorkflowDefinitionHandle ByDefinitionVersionId(string definitionVersionId) => new()
+    {
+        DefinitionVersionId = definitionVersionId
+    };
 
     /// <inheritdoc />
     public override string ToString()
     {
         if (DefinitionId != null)
             return $"DefinitionId: {DefinitionId}, VersionOptions: {VersionOptions}";
-        
+
         if (DefinitionVersionId != null)
             return $"DefinitionVersionId: {DefinitionVersionId}";
 

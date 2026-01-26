@@ -69,4 +69,6 @@ public class WorkflowDefinitionModel : LinkedEntity
     /// Gets or sets the root activity of the workflow definition.
     /// </summary>
     public JsonObject? Root { get; set; }
+
+    public int InstanceId { get; set; }
 }

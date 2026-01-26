@@ -29,8 +29,8 @@ public interface IWorkflowDefinitionsApi
     /// <param name="definitionId">The definition ID of the workflow definition to get.</param>
     /// <param name="versionOptions">The version options.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    [Get("/workflow-definitions/by-definition-id/{definitionId}?versionOptions={versionOptions}")]
-    Task<WorkflowDefinition?> GetByDefinitionIdAsync(string definitionId, VersionOptions? versionOptions = default, CancellationToken cancellationToken = default);
+    [Get("/workflow-definitions/by-definition-id/{definitionId}/{instanceId}?versionOptions={versionOptions}")]
+    Task<WorkflowDefinition?> GetByDefinitionIdAsync(string definitionId,int instanceId, VersionOptions? versionOptions = default, CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Gets a workflow definition by ID.

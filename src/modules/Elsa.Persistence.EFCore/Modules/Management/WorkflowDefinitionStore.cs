@@ -78,7 +78,7 @@ public class EFCoreWorkflowDefinitionStore(EntityStore<ManagementElsaDbContext, 
         await using var dbContext = await store.CreateDbContextAsync(cancellationToken);
         var set = dbContext.WorkflowDefinitions.AsNoTracking();
         var queryable = Filter(set.AsQueryable(), filter).OrderBy(order);
-        
+
         if (filter.TenantAgnostic)
             queryable = queryable.IgnoreQueryFilters();
 
@@ -103,10 +103,10 @@ public class EFCoreWorkflowDefinitionStore(EntityStore<ManagementElsaDbContext, 
         await using var dbContext = await store.CreateDbContextAsync(cancellationToken);
         var set = dbContext.WorkflowDefinitions.AsNoTracking();
         var queryable = Filter(set.AsQueryable(), filter).OrderBy(order);
-        
+
         if (filter.TenantAgnostic)
             queryable = queryable.IgnoreQueryFilters();
-        
+
         return await queryable.Select(WorkflowDefinitionSummary.FromDefinitionExpression()).ToListAsync(cancellationToken);
     }
 
@@ -134,10 +134,10 @@ public class EFCoreWorkflowDefinitionStore(EntityStore<ManagementElsaDbContext, 
         await using var dbContext = await store.CreateDbContextAsync(cancellationToken);
         var set = dbContext.WorkflowDefinitions;
         var queryable = set.AsQueryable();
-        
+
         if (filter.TenantAgnostic)
             queryable = queryable.IgnoreQueryFilters();
-        
+
         var ids = await Filter(queryable, filter).Select(x => x.Id).Distinct().ToListAsync(cancellationToken);
         return await store.DeleteWhereAsync(x => ids.Contains(x.Id), cancellationToken);
     }
@@ -204,7 +204,8 @@ public class EFCoreWorkflowDefinitionStore(EntityStore<ManagementElsaDbContext, 
         var definitionId = filter.DefinitionId ?? filter.DefinitionHandle?.DefinitionId;
         var versionOptions = filter.VersionOptions ?? filter.DefinitionHandle?.VersionOptions;
         var id = filter.Id ?? filter.DefinitionHandle?.DefinitionVersionId;
-        
+
+        queryable = queryable.Where(x => x.InstanceId == filter.InstanceId);
         if (definitionId != null) queryable = queryable.Where(x => x.DefinitionId == definitionId);
         if (filter.DefinitionIds != null) queryable = queryable.Where(x => filter.DefinitionIds.Contains(x.DefinitionId));
         if (id != null) queryable = queryable.Where(x => x.Id == id);

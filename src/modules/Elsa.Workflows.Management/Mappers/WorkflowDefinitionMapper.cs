@@ -113,7 +113,7 @@ public class WorkflowDefinitionMapper
             source.IsReadonly,
             source.IsSystem);
     }
-    
+
     public WorkflowDefinition MapToWorkflowDefinition(WorkflowDefinitionModel source)
     {
         var root = source.Root!;
@@ -189,7 +189,8 @@ public class WorkflowDefinitionMapper
             workflowDefinition.IsPublished,
             workflow.Options,
             null,
-            workflow.Root);
+            workflow.Root,
+            workflowDefinition.InstanceId);
     }
 
     /// <summary>
@@ -221,6 +222,7 @@ public class WorkflowDefinitionMapper
             workflow.Publication.IsPublished,
             workflow.Options,
             null,
-            workflow.Root);
+            workflow.Root,
+            null);
     }
 }
