@@ -4,7 +4,7 @@ using Elsa.Workflows.Models;
 
 namespace Ipe.Engines.Activities;
 
-[Activity("IPE", "Initialize Transactions", "Initialize Transactions", DisplayName = "Initialize Transactions", Kind = ActivityKind.Task)]
+[Activity("IPE", "Image Review", "Initialize Transactions", DisplayName = "Initialize Transactions", Kind = ActivityKind.Task)]
 [Output(IsSerializable = false)]
 public class InitializeTransactions : Activity
 {
@@ -13,7 +13,6 @@ public class InitializeTransactions : Activity
 
     protected override void Execute(ActivityExecutionContext context)
     {
-        context.
         base.Execute(context);
     }
 }

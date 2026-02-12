@@ -8,6 +8,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapper" />
+      <PackageReference Include="Microsoft.Data.SqlClient" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Entities\" />
       <Folder Include="Services\" />
     </ItemGroup>

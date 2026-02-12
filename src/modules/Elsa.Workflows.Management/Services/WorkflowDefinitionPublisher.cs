@@ -215,7 +215,10 @@ public class WorkflowDefinitionPublisher(
             InstanceId = definition.InstanceId.GetValueOrDefault()
         };
         var lastVersion = await workflowDefinitionStore.FindLastVersionAsync(filter, cancellationToken);
-        draft.Id = lastVersion.Id;
+        if (lastVersion != null)
+        {
+            draft.Id = lastVersion.Id;
+        }
         
         draft.Version = draft.DefinitionId == lastVersion?.DefinitionId ? lastVersion.Version : lastVersion?.Version + 1 ?? 1;
         draft.IsLatest = true;

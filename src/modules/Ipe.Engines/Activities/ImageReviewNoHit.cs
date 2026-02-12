@@ -17,6 +17,13 @@ public class ImageReviewNoHit : Activity
         {
             Callback = OnResume
         };
+        
+        context.AddBookmark(new Bookmark()
+        {
+            
+        });
+
+        //create taskspending insert context.id
         base.Execute(context);
     }
 

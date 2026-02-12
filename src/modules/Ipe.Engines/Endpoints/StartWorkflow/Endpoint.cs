@@ -19,6 +19,7 @@ internal class Endpoint(
     {
         Post("/ipe/workflows/{definitionId}/start");
         ConfigurePermissions("exec:workflow-definitions");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(Request request, CancellationToken cancellationToken)
