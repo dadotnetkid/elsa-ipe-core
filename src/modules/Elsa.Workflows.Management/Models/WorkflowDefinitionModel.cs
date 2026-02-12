@@ -36,7 +36,8 @@ public class WorkflowDefinitionModel
         bool isPublished,
         WorkflowOptions? options,
         bool? usableAsActivity,
-        IActivity? root)
+        IActivity? root,
+        int? instanceId)
     {
         Id = id;
         DefinitionId = definitionId;
@@ -58,6 +59,7 @@ public class WorkflowDefinitionModel
         Options = options;
         UsableAsActivity = usableAsActivity;
         Root = root;
+        InstanceId = instanceId.GetValueOrDefault();
     }
 
     public string Id { get; set; } = null!;
@@ -83,4 +85,5 @@ public class WorkflowDefinitionModel
     public bool? UsableAsActivity { get; set; }
 
     public IActivity? Root { get; set; }
+    public int InstanceId { get; set; }
 }

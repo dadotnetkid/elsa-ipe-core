@@ -18,7 +18,7 @@ namespace Elsa.Persistence.EFCore.Oracle.Migrations.Management
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Elsa")
-                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("ProductVersion", "9.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -29,20 +29,23 @@ namespace Elsa.Persistence.EFCore.Oracle.Migrations.Management
                         .HasColumnType("NVARCHAR2(450)");
 
                     b.Property<byte[]>("BinaryData")
-                        .HasColumnType("BLOB");
+                        .HasColumnType("RAW(2000)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("TIMESTAMP(7) WITH TIME ZONE");
 
                     b.Property<string>("Data")
-                        .HasColumnType("NCLOB");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("DefinitionId")
                         .IsRequired()
                         .HasColumnType("NVARCHAR2(450)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("NCLOB");
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<int?>("InstanceId")
+                        .HasColumnType("NUMBER(10)");
 
                     b.Property<bool>("IsLatest")
                         .HasColumnType("BOOLEAN");
@@ -57,7 +60,7 @@ namespace Elsa.Persistence.EFCore.Oracle.Migrations.Management
                         .HasColumnType("BOOLEAN");
 
                     b.Property<string>("MaterializerContext")
-                        .HasColumnType("NCLOB");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("MaterializerName")
                         .IsRequired()
@@ -67,13 +70,13 @@ namespace Elsa.Persistence.EFCore.Oracle.Migrations.Management
                         .HasColumnType("NVARCHAR2(450)");
 
                     b.Property<string>("OriginalSource")
-                        .HasColumnType("NCLOB");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("ProviderName")
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("StringData")
-                        .HasColumnType("JSON");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("TenantId")
                         .HasColumnType("NVARCHAR2(450)");
@@ -88,6 +91,9 @@ namespace Elsa.Persistence.EFCore.Oracle.Migrations.Management
                         .HasColumnType("NUMBER(10)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InstanceId")
+                        .HasDatabaseName("IX_WorkflowDefinition_InstanceId");
 
                     b.HasIndex("IsLatest")
                         .HasDatabaseName("IX_WorkflowDefinition_IsLatest");

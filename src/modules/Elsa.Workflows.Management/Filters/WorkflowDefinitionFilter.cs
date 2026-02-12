@@ -82,6 +82,8 @@ public class WorkflowDefinitionFilter
     /// </summary>
     public bool TenantAgnostic { get; set; }
 
+    public int InstanceId { get; set; }
+
     /// <summary>
     /// Applies the filter to the specified queryable.
     /// </summary>

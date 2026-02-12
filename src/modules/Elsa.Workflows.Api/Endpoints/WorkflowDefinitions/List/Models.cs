@@ -17,4 +17,5 @@ internal class Request
     public OrderDirection? OrderDirection { get; set; }
     public string? SearchTerm { get; set; }
     public bool? IsSystem { get; set; }
+    public int InstanceId { get; set; }
 }

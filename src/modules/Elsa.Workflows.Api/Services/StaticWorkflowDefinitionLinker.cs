@@ -20,7 +20,7 @@ public class StaticWorkflowDefinitionLinker(
     public async Task<LinkedWorkflowDefinitionModel> MapAsync(WorkflowDefinition definition, CancellationToken cancellationToken = default)
     {
         var workflowDefinitionModel = await workflowDefinitionMapper.MapAsync(definition, cancellationToken);
-        var linkedModel = new LinkedWorkflowDefinitionModel(GenerateLinksForSingleEntry(definition.DefinitionId, definition.IsReadonly))
+        var linkedModel = new LinkedWorkflowDefinitionModel(GenerateLinksForSingleEntry(definition.DefinitionId, definition.InstanceId.GetValueOrDefault(), definition.IsReadonly))
         {
             Id = workflowDefinitionModel.Id,
             DefinitionId = workflowDefinitionModel.DefinitionId,
@@ -40,7 +40,8 @@ public class StaticWorkflowDefinitionLinker(
             IsPublished = workflowDefinitionModel.IsPublished,
             Options = workflowDefinitionModel.Options,
             UsableAsActivity = workflowDefinitionModel.UsableAsActivity,
-            Root = workflowDefinitionModel.Root
+            Root = workflowDefinitionModel.Root,
+            InstanceId = workflowDefinitionModel.InstanceId,
         };
 
         return linkedModel;
@@ -55,7 +56,7 @@ public class StaticWorkflowDefinitionLinker(
         {
             items.Add(new()
             {
-                Links = GenerateLinksForSingleEntry(item.DefinitionId, item.IsReadonly),
+                Links = GenerateLinksForSingleEntry(item.DefinitionId, item.InstanceId, item.IsReadonly),
                 Id = item.Id,
                 DefinitionId = item.DefinitionId,
                 Name = item.Name,
@@ -68,7 +69,8 @@ public class StaticWorkflowDefinitionLinker(
                 MaterializerName = item.MaterializerName,
                 CreatedAt = item.CreatedAt,
                 IsReadonly = item.IsReadonly,
-                IsMaterializerAvailable = materializerRegistry.IsMaterializerAvailable(item.MaterializerName)
+                IsMaterializerAvailable = materializerRegistry.IsMaterializerAvailable(item.MaterializerName),
+                InstanceId = item.InstanceId,
             });
         }
 
@@ -88,7 +90,7 @@ public class StaticWorkflowDefinitionLinker(
 
         foreach (var item in models)
         {
-            var linkedModel = new LinkedWorkflowDefinitionModel(GenerateLinksForSingleEntry(item.DefinitionId, item.IsReadonly))
+            var linkedModel = new LinkedWorkflowDefinitionModel(GenerateLinksForSingleEntry(item.DefinitionId, item.InstanceId, item.IsReadonly))
             {
                 Id = item.Id,
                 DefinitionId = item.DefinitionId,
@@ -141,12 +143,12 @@ public class StaticWorkflowDefinitionLinker(
         return linksList.ToArray();
     }
 
-    private Link[] GenerateLinksForSingleEntry(string definitionId, bool definitionIsReadonly)
+    private Link[] GenerateLinksForSingleEntry(string definitionId, int instanceId, bool definitionIsReadonly)
     {
         var links = new List<Link>
         {
             new($"/workflow-definitions/{definitionId}", "self", "GET"),
-            new($"/workflow-definitions/by-definition-id/{definitionId}", "self", "GET"),
+            new($"/workflow-definitions/by-definition-id/{definitionId}/{instanceId}", "self", "GET"),
             new($"/workflow-definitions/{definitionId}/versions", "versions", "GET"),
             new($"/workflow-definitions/{definitionId}/bulk-dispatch", "bulk-dispatch", "POST"),
             new($"/workflow-definitions/{definitionId}/dispatch", "dispatch", "POST"),

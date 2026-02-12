@@ -11,7 +11,8 @@ public static class WorkflowDefinitionHandleExtensions
         {
             DefinitionId = handle.DefinitionId,
             Id = handle.DefinitionVersionId,
-            VersionOptions = handle.VersionOptions
+            VersionOptions = handle.VersionOptions,
+            InstanceId = handle.InstanceId,
         };
     }
 }

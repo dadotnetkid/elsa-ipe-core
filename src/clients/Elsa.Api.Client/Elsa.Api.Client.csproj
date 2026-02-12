@@ -5,6 +5,8 @@
             Provides HTTP clients for the Elsa Workflows REST API.
         </Description>
         <PackageTags>elsa api client</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>3.7.0</Version>
     </PropertyGroup>
 
     <ItemGroup>

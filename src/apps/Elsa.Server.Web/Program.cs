@@ -23,6 +23,7 @@ using Elsa.Workflows.Options;
 using Elsa.Workflows.Runtime.Distributed.Extensions;
 using Elsa.Workflows.Runtime.Options;
 using Elsa.Workflows.Runtime.Tasks;
+using Ipe.Engines;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
 
@@ -39,11 +40,13 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var identitySection = configuration.GetSection("Identity");
 var identityTokenSection = identitySection.GetSection("Tokens");
-
+var connectionString = configuration.GetConnectionString("Elsa");
 // Add Elsa services.
 services
     .AddElsa(elsa =>
     {
+        elsa.AddIPEModule();
+        
         elsa
             .AddActivitiesFrom<Program>()
             .AddActivityHost<Penguin>()
@@ -67,14 +70,14 @@ services
             .UseFlowchart(flowchart => flowchart.UseTokenBasedExecution())
             .UseWorkflowManagement(management =>
             {
-                management.UseEntityFrameworkCore(ef => ef.UseSqlite());
+                management.UseEntityFrameworkCore(ef => ef.UseSqlServer(connectionString));
                 management.SetDefaultLogPersistenceMode(LogPersistenceMode.Inherit);
                 management.UseCache();
                 management.UseReadOnlyMode(useReadOnlyMode);
             })
             .UseWorkflowRuntime(runtime =>
             {
-                runtime.UseEntityFrameworkCore(ef => ef.UseSqlite());
+                runtime.UseEntityFrameworkCore(ef => ef.UseSqlServer(connectionString));
                 runtime.UseCache();
                 runtime.UseDistributedRuntime();
             })

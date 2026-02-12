@@ -107,4 +107,6 @@ public class WorkflowDefinitionSummary
     /// Makes workflow
     /// </summary>
     public bool IsReadonly { get; set; }
+
+    public int InstanceId { get; set; }
 }
